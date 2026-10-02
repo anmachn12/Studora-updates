@@ -1,3 +1,13 @@
+# Studora 0.1.3
+
+Switch subjects and workspace tabs with a calmer, smoother transition.
+
+- Blend the outgoing and incoming workspace with a short fade and subtle slide.
+- Keep the subject rail and window controls steady while content changes.
+- Reverse the motion when moving back through subjects or tabs.
+- Rapid switches go straight to your latest selection without queued animations.
+- Respect reduced-motion preferences and restore saved conversation drafts when returning to a subject.
+
 # Studora 0.1.2
 
 Updates are easier to receive, understand, and install without interrupting your study session.

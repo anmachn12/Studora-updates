@@ -33,6 +33,8 @@ jobs:
         env:
           STUDORA_TEST_OUTPUT_DIR: ${{ runner.temp }}/studora-test-output
         run: node scripts/updater-ui-test.cjs
+      - name: Test subject and tab navigation
+        run: node scripts/navigation-ui-test.cjs
       - name: Check version publication
         id: version
         shell: pwsh

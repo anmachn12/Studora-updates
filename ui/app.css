@@ -7,3 +7,21 @@ body[data-theme=dark]{--bg:#151815;--panel:#1d221e;--raised:#242b25;--ink:#ecefe
 #updates{position:relative}.update-dot{position:absolute;right:7px;top:6px;width:6px;height:6px;border-radius:50%;background:var(--green)}.update-dot[hidden]{display:none}.rail button.update-ready{color:var(--green);background:var(--soft)}.update-version{display:flex;gap:16px;align-items:center;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:20px 0;font-size:13px}.update-version span{display:inline-flex;gap:8px;align-items:center}.update-progress{width:100%;height:6px;accent-color:var(--green);border:0;border-radius:4px;overflow:hidden}.update-progress::-webkit-progress-bar{background:var(--line)}.update-progress::-webkit-progress-value{background:var(--green);transition:width .2s}@media(prefers-reduced-motion:reduce){.update-progress::-webkit-progress-value{transition:none}}
 
 .update-notice{position:fixed;right:24px;bottom:24px;z-index:12;background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:16px;display:flex;gap:16px;align-items:center;max-width:560px}.update-notice[hidden]{display:none}.update-notice strong{font-size:13px;font-weight:500}.update-notice p{font-size:12px;color:var(--muted);margin:5px 0 0}.update-notice button{flex-shrink:0;font-size:12px}.update-notes{max-height:220px;overflow:auto;border-top:1px solid var(--line);padding-top:16px;line-height:1.7;font-size:13px}.update-notes h3{font:500 14px "Instrument Sans",sans-serif;margin:0 0 12px}.update-notes p{margin-top:0}.update-notes ul{padding-left:20px;color:var(--muted)}
+
+/* Only workspace panes move; the subject rail and window controls stay anchored. */
+html[data-navigation-motion] #main{view-transition-name:study-canvas}
+html[data-navigation-motion=subject] #sidebar{view-transition-name:study-sidebar}
+::view-transition{pointer-events:none}
+::view-transition-old(root){animation:none;opacity:0}
+::view-transition-new(root){animation:none;opacity:1}
+::view-transition-group(study-canvas),::view-transition-group(study-sidebar){animation-duration:240ms;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+::view-transition-old(study-canvas){animation:study-main-out 120ms ease-out both}
+::view-transition-new(study-canvas){animation:study-main-in 240ms cubic-bezier(.22,1,.36,1) both}
+::view-transition-old(study-sidebar){animation:study-sidebar-out 100ms ease-out both}
+::view-transition-new(study-sidebar){animation:study-sidebar-in 200ms cubic-bezier(.22,1,.36,1) both}
+html[data-navigation-motion=tab]::view-transition-group(study-canvas),html[data-navigation-motion=tab]::view-transition-new(study-canvas){animation-duration:200ms}
+@keyframes study-main-out{to{opacity:0;transform:translate(calc(var(--navigation-x)*-.5),calc(var(--navigation-y)*-.5))}}
+@keyframes study-main-in{from{opacity:0;transform:translate(var(--navigation-x),var(--navigation-y))}to{opacity:1;transform:translate(0,0)}}
+@keyframes study-sidebar-out{to{opacity:0}}
+@keyframes study-sidebar-in{from{opacity:0;transform:translateY(calc(var(--navigation-y)*.5))}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
