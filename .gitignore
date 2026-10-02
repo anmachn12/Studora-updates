@@ -8,6 +8,11 @@ update-test-data*/
 .env
 .env.*
 connection.bin
+chatgpt-accounts.bin*
+chatgpt-host.json
+ai-test*/
+navigation-test*/
+packaged-background-test*/
 workspace.json*
 sources/
 *.pfx

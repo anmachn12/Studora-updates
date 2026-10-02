@@ -1,3 +1,18 @@
+# Studora 0.1.4
+
+Use eligible ChatGPT plan access without a paid API key, with clearer model choices and connection diagnostics.
+
+- Continue with ChatGPT using the official browser sign-in flow. Available models and usage limits come from your signed-in account. Access depends on OpenAI account eligibility.
+- Switch between saved ChatGPT accounts, manage plan usage, and disconnect securely. Studora never switches to a paid API key automatically.
+- Use the browser study option if plan access is unavailable: prepare a lesson prompt with selected source excerpts, copy it into ChatGPT, then paste the explanation back into the subject conversation.
+
+- Exclude legacy completion and specialized models from the tutor model picker.
+- Choose an available tutor model from a dropdown, with an advanced model ID field for customization.
+- Omit unsupported reasoning settings for standard models such as GPT-4.1 and GPT-4o.
+- Refresh model choices after saving a key and explicitly test your selected model and settings. The tiny test is billed to your API account and sends no study sources.
+- Explain invalid keys, inaccessible models, exhausted API quota, permissions, rate limits, and connection failures without exposing API keys or internal IPC errors.
+- Clarify that ChatGPT Free or Plus does not include API usage. Saving a key alone does not verify model access.
+
 # Studora 0.1.3
 
 Switch subjects and workspace tabs with a calmer, smoother transition.

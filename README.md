@@ -31,3 +31,17 @@ PDF, Word, image, and text imports, lesson/example organization, interactive geo
 This repository is public and contains application code only. Never commit study files, API keys, workspace backups, or signing certificates.
 
 When you request a completed app change, the development agent handles the version, description, publishing, and verification as recorded in AGENTS.md. You do not need to create the release yourself.
+
+### AI connection diagnostics
+
+In Settings → AI connection, save your API key, choose an available tutor model, and click **Test selected model**. This sends a small billed request with a 256-token output cap and no study sources. The test uses the selected reasoning setting and records usage. Model discovery only checks listing access; the test checks actual inference access. Standard models omit reasoning parameters. Legacy completion models cannot run the tutor. ChatGPT subscriptions and OpenAI API credits are separate. Keys stay local and never enter backups or GitHub.
+
+Run `node scripts/ai-ui-test.cjs` to verify connection diagnostics and request compatibility with a mocked provider and disposable test key; no live OpenAI requests are made.
+
+### Use ChatGPT without an API key
+
+Settings → AI connection defaults to ChatGPT plan. Click **Continue with ChatGPT**, authorize Studora in the system browser, and choose a model from your account. Eligibility, models, and limits are controlled by OpenAI. Keep paid credits disabled in ChatGPT Usage settings if you want included usage only. Studora never falls back to a paid API key. OAuth credentials are encrypted separately from study data and excluded from backups. If secure storage is unavailable, the connection lasts for the session only.
+
+If plan access is unavailable, click **Prepare for ChatGPT** in a subject: review and copy the question, numbered lesson/example context, and selected excerpts. Open ChatGPT in your browser and paste them. Attach original diagrams or scans yourself. Use **Paste ChatGPT reply** to save the explanation locally. Copied replies are labeled and not claimed as verified. This option makes no API requests.
+
+Official integration references: https://developers.openai.com/siwc/token-sharing-open-source/sign-in and https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference .
