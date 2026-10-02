@@ -47,9 +47,15 @@ jobs:
             "publish=true" >> $env:GITHUB_OUTPUT
           }
           exit 0
+      - name: Prepare this version’s update description
+        if: steps.version.outputs.publish == 'true'
+        run: npm run release:notes
       - name: Build Windows installer and update manifest
         if: steps.version.outputs.publish == 'true'
         run: npm run build -- --publish never
+      - name: Test packaged background updates
+        if: steps.version.outputs.publish == 'true'
+        run: node scripts/packaged-background-test.cjs dist/win-unpacked/Studora.exe
       - name: Publish stable release
         if: steps.version.outputs.publish == 'true'
         shell: pwsh
@@ -59,7 +65,7 @@ jobs:
           foreach ($releaseAsset in $releaseAssets) {
             if (!(Test-Path -LiteralPath $releaseAsset)) { throw "Missing release file: $releaseAsset" }
           }
-          gh release create "v$releaseVersion" @releaseAssets --repo $env:GITHUB_REPOSITORY --target '${{ github.sha }}' --title "Studora $releaseVersion" --notes-file CHANGELOG.md --draft
+          gh release create "v$releaseVersion" @releaseAssets --repo $env:GITHUB_REPOSITORY --target '${{ github.sha }}' --title "Studora $releaseVersion" --notes-file dist/release-notes.md --draft
           if ($LASTEXITCODE -ne 0) { throw 'Could not create the release.' }
           gh release edit "v$releaseVersion" --repo $env:GITHUB_REPOSITORY --draft=false --latest
           if ($LASTEXITCODE -ne 0) { throw 'Could not publish the completed release.' }

@@ -1,0 +1,11 @@
+const {_electron:electron}=require('playwright'),path=require('node:path'),assert=require('node:assert/strict');
+(async()=>{if(!process.argv[2])throw Error('Pass the packaged Studora.exe path.');const env={...process.env,STUDORA_TEST:'1',STUDORA_DATA_DIR:path.resolve(__dirname,'../../packaged-background-test-'+Date.now())};delete env.ELECTRON_RUN_AS_NODE;
+const app=await electron.launch({executablePath:path.resolve(process.argv[2]),args:['--no-sandbox'],env});try{const page=await app.firstWindow();await page.getByRole('heading',{name:'Overview',exact:true}).waitFor();
+await app.evaluate(({BrowserWindow})=>{BrowserWindow.getAllWindows()[0].show();const u=global.__studoraTestUpdater;u.quitAndInstall=()=>{throw Error('Background download must never install.')};u.downloadUpdate=async()=>{global.__backgroundDownloads=(global.__backgroundDownloads||0)+1;u.emit('download-progress',{percent:50});u.emit('update-downloaded',{version:'0.2.0'})};u.emit('update-available',{version:'0.2.0',releaseNotes:'Background download test.'})});
+await page.locator('#update-notice').waitFor({state:'visible'});assert.equal(await app.evaluate(()=>global.__backgroundDownloads||0),0);
+await app.evaluate(({BrowserWindow})=>BrowserWindow.getAllWindows()[0].close());await page.waitForFunction(async()=>(await window.studora.updateStatus()).status==='downloaded');
+assert.equal(await app.evaluate(()=>global.__studoraBackground.isBackground()),true);assert.equal(await app.evaluate(()=>global.__backgroundDownloads),1);
+await app.evaluate(()=>global.__studoraBackground.show());assert.equal(await app.evaluate(()=>global.__studoraBackground.isBackground()),false);
+await page.getByRole('button',{name:'View update',exact:true}).click();await page.getByRole('button',{name:'Install and restart',exact:true}).waitFor();assert.match(await page.locator('.update-notes').textContent(),/Background download test/);
+console.log('PASS: packaged native tray, close-to-background, automatic download, no automatic installation, reopen, and ready notification.');
+}finally{await app.close()}})().catch(error=>{console.error(error);process.exitCode=1});

@@ -1,3 +1,13 @@
+# Studora 0.1.2
+
+Updates are easier to receive, understand, and install without interrupting your study session.
+
+- See an in-app update notification and a clear description of what changed.
+- Choose Install and restart; Studora saves your workspace before restarting.
+- Closing the window keeps the updater in the Windows tray, where new releases download automatically.
+- Background updates start at Windows sign-in and check every 30 minutes. Turn them off in Settings or choose Quit Studora from the tray.
+- Each future update includes its own version, description, tested build, and GitHub release.
+
 # Studora 0.1.1
 
 - Check for updates directly above Settings in the subject rail.

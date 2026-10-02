@@ -1,11 +1,11 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),{EventEmitter}=require('node:events');
 const {createUpdateManager}=require('../updater.cjs');
-function setup(packaged=true,beforeInstall=async()=>{}){
+function setup(packaged=true,beforeInstall=async()=>{},isBackground=()=>false){
   const updater=new EventEmitter();updater.setFeedURL=x=>updater.feed=x;
   updater.checkForUpdates=async()=>{updater.emit('update-available',{version:'0.2.0'})};
   updater.downloadUpdate=async()=>{updater.emit('download-progress',{percent:45});updater.emit('update-downloaded',{version:'0.2.0'})};
   updater.quitAndInstall=(...x)=>updater.installArgs=x;
-  const states=[],manager=createUpdateManager({app:{isPackaged:packaged,getVersion:()=> '0.1.1'},updater,config:{owner:'anmachn12',repo:'Studora-updates'},emit:x=>states.push(x),beforeInstall});
+  const states=[],manager=createUpdateManager({app:{isPackaged:packaged,getVersion:()=> '0.1.2'},updater,config:{owner:'anmachn12',repo:'Studora-updates'},emit:x=>states.push(x),beforeInstall,isBackground});
   return {updater,manager,states};
 }
 test('public release feed checks without downloading or installing automatically',async()=>{
@@ -33,4 +33,16 @@ test('overlapping checks share one request and progress stays within range',asyn
   const {manager,updater}=setup();let complete,calls=0;updater.checkForUpdates=()=>{calls++;return new Promise(resolve=>complete=resolve)};
   const first=manager.check(),second=manager.check();assert.equal(calls,1);updater.emit('update-not-available');complete();await Promise.all([first,second]);
   updater.emit('download-progress',{percent:120});assert.equal(manager.snapshot().percent,100);
+});
+test('hidden app downloads new releases automatically without installing',async()=>{
+  let hidden=false,downloads=0;
+  const {manager,updater}=setup(true,async()=>{},()=>hidden);
+  updater.downloadUpdate=async()=>{downloads++;updater.emit('update-downloaded',{version:'0.2.0'})};
+  await manager.check();assert.equal(downloads,0);hidden=true;await manager.downloadInBackground();assert.equal(downloads,1);assert.equal(manager.snapshot().status,'downloaded');assert.equal(updater.installArgs,undefined);
+  const fresh=setup(true,async()=>{},()=>true);await fresh.manager.check();await new Promise(resolve=>setImmediate(resolve));assert.equal(fresh.manager.snapshot().status,'downloaded');assert.equal(fresh.updater.installArgs,undefined);
+});
+test('release descriptions persist through download and support provider arrays',async()=>{
+  const {manager,updater}=setup();updater.emit('update-available',{version:'0.2.0',releaseNotes:'Clear description.'});await manager.download();assert.equal(manager.snapshot().releaseNotes,'Clear description.');
+  updater.emit('update-not-available',{releaseNotes:[{version:'0.2.0',note:'New change.'}]});assert.match(manager.snapshot().releaseNotes,/0.2.0\nNew change/);
+  updater.emit('update-available',{version:'0.3.0',releaseNotes:'x'.repeat(50000)});assert.equal(manager.snapshot().releaseNotes.length,20000);
 });

@@ -1,7 +1,7 @@
 // The renderer can request actions, but cannot choose executable URLs or update feeds.
-function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=async()=>{}}) {
+function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=async()=>{},isBackground=()=>false}) {
   const configured=/^[\w-]+$/.test(config.owner||'') && /^[\w.-]+$/.test(config.repo||'');
-  let state={status:app.isPackaged?(configured?'idle':'unconfigured'):'development',currentVersion:app.getVersion(),repository:configured?`${config.owner}/${config.repo}`:'',version:null,percent:0,error:null,checkedAt:null};
+  let state={status:app.isPackaged?(configured?'idle':'unconfigured'):'development',currentVersion:app.getVersion(),repository:configured?`${config.owner}/${config.repo}`:'',version:null,releaseNotes:'',percent:0,error:null,checkedAt:null};
   let pending=null;
   const snapshot=()=>({...state});
   const change=patch=>{state={...state,...patch};emit(snapshot());return snapshot()};
@@ -14,10 +14,11 @@ function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=a
   updater.logger=null;
   if(configured)updater.setFeedURL({provider:'github',owner:config.owner,repo:config.repo,private:false});
   updater.on('checking-for-update',()=>change({status:'checking',error:null}));
-  updater.on('update-available',info=>change({status:'available',version:info.version,error:null,checkedAt:new Date().toISOString()}));
-  updater.on('update-not-available',()=>change({status:'up_to_date',version:null,error:null,checkedAt:new Date().toISOString()}));
+  const notes=info=>(typeof info?.releaseNotes==='string'?info.releaseNotes:Array.isArray(info?.releaseNotes)?info.releaseNotes.map(x=>`### ${x.version}\n${x.note||''}`).join('\n\n'):'').slice(0,20000);
+  updater.on('update-available',info=>{change({status:'available',version:info.version,releaseNotes:notes(info),error:null,checkedAt:new Date().toISOString()});Promise.resolve().then(downloadInBackground)});
+  updater.on('update-not-available',info=>change({status:'up_to_date',version:null,releaseNotes:notes(info),error:null,checkedAt:new Date().toISOString()}));
   updater.on('download-progress',info=>change({status:'downloading',percent:Math.min(100,Math.max(0,Number(info.percent)||0))}));
-  updater.on('update-downloaded',info=>change({status:'downloaded',version:info.version,percent:100,error:null}));
+  updater.on('update-downloaded',info=>change({status:'downloaded',version:info.version,releaseNotes:notes(info)||state.releaseNotes,percent:100,error:null}));
   updater.on('error',fail);
   async function check(){
     if(!app.isPackaged||!configured)return snapshot();
@@ -32,6 +33,7 @@ function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=a
     change({status:'downloading',percent:0,error:null});
     try{await updater.downloadUpdate();return snapshot()}catch{return fail()}
   }
+  async function downloadInBackground(){if(app.isPackaged&&isBackground())return download();return snapshot()}
   async function install(){
     if(state.status!=='downloaded')throw new Error('Download the update before installing.');
     await beforeInstall(); // Refuse while AI is running; await all saved workspace writes.
@@ -39,6 +41,6 @@ function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=a
     try{updater.quitAndInstall(false,true)}catch{fail()}
     return snapshot();
   }
-  return {snapshot,check,download,install};
+  return {snapshot,check,download,downloadInBackground,install};
 }
 module.exports={createUpdateManager};

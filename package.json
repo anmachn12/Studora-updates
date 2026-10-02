@@ -1,6 +1,6 @@
 {
   "name": "studora",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Your personal learning workspace",
   "main": "main.cjs",
   "author": "Studora",
@@ -8,7 +8,8 @@
   "scripts": {
     "start": "electron .",
     "test": "node --test test/*.test.cjs",
-    "build": "electron-builder --win nsis --x64"
+    "build": "electron-builder --win nsis --x64",
+    "release:notes": "node scripts/release-notes.cjs"
   },
   "dependencies": {
     "@fontsource/instrument-sans": "^5.2.6",
@@ -42,7 +43,9 @@
       "ui/**/*",
       "package.json",
       "updater.cjs",
-      "release-config.json"
+      "release-config.json",
+      "background.cjs",
+      "tray-icon.cjs"
     ],
     "win": {
       "target": "nsis",
