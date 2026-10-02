@@ -1,0 +1,72 @@
+{
+  "name": "studora",
+  "version": "0.1.1",
+  "description": "Your personal learning workspace",
+  "main": "main.cjs",
+  "author": "Studora",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "build": "electron-builder --win nsis --x64"
+  },
+  "dependencies": {
+    "@fontsource/instrument-sans": "^5.2.6",
+    "@fontsource/noto-naskh-arabic": "^5.2.6",
+    "@fontsource/plus-jakarta-sans": "^5.2.6",
+    "dompurify": "^3.2.7",
+    "electron-updater": "6.8.9",
+    "katex": "^0.16.22",
+    "lucide": "^0.468.0",
+    "mammoth": "^1.9.1",
+    "marked": "^16.3.0",
+    "mathjs": "15.2.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "6.2.108"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "electron": "^42.11.10",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "local.studora.desktop",
+    "productName": "Studora",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "core.cjs",
+      "ui/**/*",
+      "package.json",
+      "updater.cjs",
+      "release-config.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "artifactName": "Studora-Setup-${version}.exe"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "anmachn12",
+        "repo": "Studora-updates",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anmachn12/Studora-updates.git"
+  }
+}

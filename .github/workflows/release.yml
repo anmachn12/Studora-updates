@@ -1,0 +1,65 @@
+name: Build and release Studora
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: studora-windows-release
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Test app and updater
+        run: npm test
+      - name: Test native update interface
+        env:
+          STUDORA_TEST_OUTPUT_DIR: ${{ runner.temp }}/studora-test-output
+        run: node scripts/updater-ui-test.cjs
+      - name: Check version publication
+        id: version
+        shell: pwsh
+        run: |
+          $releaseVersion = node -p "require('./package.json').version"
+          "version=$releaseVersion" >> $env:GITHUB_OUTPUT
+          gh release view "v$releaseVersion" --repo $env:GITHUB_REPOSITORY *> $null
+          if ($LASTEXITCODE -eq 0) {
+            "publish=false" >> $env:GITHUB_OUTPUT
+            Write-Host "Version $releaseVersion already exists. Bump package.json to publish the next update."
+          } else {
+            "publish=true" >> $env:GITHUB_OUTPUT
+          }
+          exit 0
+      - name: Build Windows installer and update manifest
+        if: steps.version.outputs.publish == 'true'
+        run: npm run build -- --publish never
+      - name: Publish stable release
+        if: steps.version.outputs.publish == 'true'
+        shell: pwsh
+        run: |
+          $releaseVersion = '${{ steps.version.outputs.version }}'
+          $releaseAssets = @("dist/Studora-Setup-$releaseVersion.exe", "dist/Studora-Setup-$releaseVersion.exe.blockmap", 'dist/latest.yml')
+          foreach ($releaseAsset in $releaseAssets) {
+            if (!(Test-Path -LiteralPath $releaseAsset)) { throw "Missing release file: $releaseAsset" }
+          }
+          gh release create "v$releaseVersion" @releaseAssets --repo $env:GITHUB_REPOSITORY --target '${{ github.sha }}' --title "Studora $releaseVersion" --notes-file CHANGELOG.md --draft
+          if ($LASTEXITCODE -ne 0) { throw 'Could not create the release.' }
+          gh release edit "v$releaseVersion" --repo $env:GITHUB_REPOSITORY --draft=false --latest
+          if ($LASTEXITCODE -ne 0) { throw 'Could not publish the completed release.' }

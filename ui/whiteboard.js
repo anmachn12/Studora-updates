@@ -1,0 +1,6 @@
+window.Whiteboard={mount(canvas){
+const ctx=canvas.getContext('2d');let paths=[],redo=[],current=null;canvas.width=1000;canvas.height=560;canvas.style.width='100%';canvas.style.height='280px';canvas.style.touchAction='none';canvas.style.border='1px solid var(--line)';canvas.style.borderRadius='8px';canvas.style.background='#fff';
+function draw(){ctx.fillStyle='#fff';ctx.fillRect(0,0,1000,560);ctx.strokeStyle='#24573d';ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';for(const line of paths){ctx.beginPath();line.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.stroke()}}
+function point(e){const box=canvas.getBoundingClientRect();return{x:(e.clientX-box.left)*1000/box.width,y:(e.clientY-box.top)*560/box.height}}
+canvas.onpointerdown=e=>{canvas.setPointerCapture(e.pointerId);current=[point(e)];paths.push(current);redo=[];draw()};canvas.onpointermove=e=>{if(!current)return;current.push(point(e));draw()};canvas.onpointerup=()=>current=null;canvas.onpointercancel=()=>current=null;draw();return{undo:()=>{if(paths.length)redo.push(paths.pop());draw()},redo:()=>{if(redo.length)paths.push(redo.pop());draw()},clear:()=>{paths=[];redo=[];draw()},image:()=>canvas.toDataURL('image/png'),empty:()=>paths.length===0};
+}};
