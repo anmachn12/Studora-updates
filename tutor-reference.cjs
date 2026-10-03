@@ -1,0 +1,16 @@
+'use strict';
+// General reference rules, separate from the student's curriculum and sources.
+// Keep grammatical role distinct from case and case marker.
+const arabic=`مرجع نحوي عام للمراجعة، وليس نصاً من كتاب الطالب:
+الجملة الاسمية الأساسية: مبتدأ مرفوع وخبر مرفوع. في الجملة الفعلية ميّز الفاعل عن المبتدأ؛ الفاعل مرفوع، والمفعول به منصوب.
+إنّ وأخواتها حروف ناسخة تنصب الاسم وترفع الخبر. إنّ حرف توكيد ونصب، وليست حرف جر. إنْ الشرطية تختلف عن إنّ الناسخة.
+كان وأخواتها أفعال ناقصة ترفع الاسم وتنصب الخبر؛ كان فعل ماض ناقص، وليست حرفاً.
+مع الفعل المبني للمجهول، الاسم المسند إليه الحدث نائب فاعل مرفوع، وليس فاعلاً أو مفعولاً به.
+المثنى يرفع بالألف وينصب ويجر بالياء. النون عوض عن التنوين، وليست علامة الرفع، وتحذف في الإضافة.
+جمع المذكر السالم يرفع بالواو وينصب ويجر بالياء. جمع المؤنث السالم يرفع بالضمة وينصب ويجر بالكسرة.
+المضاف إليه مجرور. النعت يتبع المنعوت في الإعراب والتعريف أو التنكير والجنس والعدد وفق قواعد المطابقة.
+اذكر الوظيفة النحوية أولاً ثم الحالة والعلامة، وراجع توافق كل عبارة في الإجابة. لا تعمم هذه القواعد على تركيب مختلف دون فحص السياق.`;
+const biology='General biology reference: An oxygen bubble contains many molecules, not one molecule. Bubble size varies, so bubbles per minute are only a rough proxy for photosynthesis; collected gas volume per unit time is more informative. Control temperature, carbon dioxide supply, plant amount and measurement duration. Mitosis normally preserves chromosome number; meiosis reduces it to half in its haploid products.';
+const chemistry='General chemistry reference: Balance atom counts by multiplying each subscript by its coefficient; do not change subscripts to balance an equation. The smallest whole-number coefficients should give equal counts of each element. Amount in moles n = mass / molar mass; number of particles N = n × Avogadro constant. Finish both the calculation and requested units.';
+function reference(subject){return subject==='Arabic'?arabic:subject==='Biology'?biology:subject==='Chemistry'?chemistry:''}
+module.exports={reference};

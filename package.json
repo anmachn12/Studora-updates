@@ -1,6 +1,6 @@
 {
   "name": "studora",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Your personal learning workspace",
   "main": "main.cjs",
   "author": "Studora",
@@ -48,7 +48,14 @@
       "tray-icon.cjs",
       "openai.cjs",
       "chatgpt.cjs",
-      "assets/**/*"
+      "assets/**/*",
+      "local-ai.cjs",
+      "local-ai-config.json",
+      "local-sources.cjs",
+      "THIRD-PARTY-NOTICES.md",
+      "tutor-reference.cjs",
+      "local-tutor.cjs",
+      "numeric-checks.cjs"
     ],
     "win": {
       "target": "nsis",

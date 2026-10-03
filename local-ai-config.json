@@ -1,0 +1,22 @@
+{
+  "id": "studora-local-gemma4-e4b",
+  "name": "Gemma 4 E4B · local tutor",
+  "runtime": {
+    "name": "llama-b11146-bin-win-vulkan-x64.zip",
+    "url": "https://github.com/ggml-org/llama.cpp/releases/download/b11146/llama-b11146-bin-win-vulkan-x64.zip",
+    "sha256": "55a378aa095b466979d85075234f66d7655c7a7483222af0c006c0e55b4d7bd6",
+    "size": 32127004
+  },
+  "model": {
+    "name": "gemma-4-E4B-it-Q4_0.gguf",
+    "url": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/resolve/b8093469224f83f5c38f691eb906c380e9e63114/gemma-4-E4B-it-Q4_0.gguf",
+    "sha256": "a555b900214b477d8880e7832e0b8925e139b0159640036b09fe472b6f2097f2",
+    "size": 4590807392
+  },
+  "vision": {
+    "name": "mmproj-gemma-4-E4B-it-BF16.gguf",
+    "url": "https://huggingface.co/ggml-org/gemma-4-E4B-it-GGUF/resolve/b8093469224f83f5c38f691eb906c380e9e63114/mmproj-gemma-4-E4B-it-BF16.gguf",
+    "sha256": "f77995e4b6a569ab8f0d1bfdb7e8da4a0fa5b9e6f309b9bf3bdb76164d75e29f",
+    "size": 991552256
+  }
+}

@@ -1,3 +1,19 @@
+# Studora 0.1.7
+
+Chat directly with a free tutor running on your computer, and organize materials in lesson folders.
+
+- Create, rename, and remove source folders in every subject. Move photos, PDFs, Word documents, and text between folders. Link a folder to a lesson to include its current files when studying that lesson. Removing a folder keeps its files in Unfiled. Folder organization is preserved in backups.
+- Add Gemma 4 local AI for all eight subjects, with no cloud account, API key, subscription, or per-message charges.
+- Set up the tutor once in AI connection. Show download progress, allow pause/resume, and verify the engine and model before installation. The one-time download is about 5.61 GB. Use existing download to reuse verified files on the same drive without another model copy.
+- Read answers as they are generated. Keep ordinary questions on a faster path and add a short review step for Arabic, chemistry, Islamic Studies and proofs.
+- Solve questions from photos and diagrams. Convert selected PDF pages into images; support selected page ranges in scanned PDFs and keep the original source references.
+- Use numerical learning tools and check simple arithmetic equalities. These checks do not prove geometry or guarantee the whole answer.
+- Save editable Tutor guidance per subject, including checked corrections and teaching preferences. This changes future tutoring context; it does not train model weights.
+- Keep local tutoring data on this computer and release the engine’s memory after two idle minutes. Never fall back to a paid provider.
+- Preserve existing study data and connection choices. A previously unavailable ChatGPT connection can switch to the installed free tutor.
+
+Local AI can still make mistakes. It has not been certified for 99% accuracy or for your specific textbook. First startup and photo questions take longer than ordinary follow-ups.
+
 # Studora 0.1.6
 
 Organize every subject the way its textbook works.

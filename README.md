@@ -24,7 +24,7 @@ If a release job stops after creating a draft, inspect that draft before retryin
 
 ## Local data and AI
 
-Chats, notes, settings, and imported materials stay in the Windows app-data folder for Studora. Open that folder from Settings. Avoid deleting it when upgrading. Your OpenAI API account is connected inside Settings; its key uses Windows secure storage when available, with a session-only fallback. Asking the tutor sends the chosen learning context to OpenAI. Nothing in your study workspace is uploaded to GitHub by the update feature.
+Chats, notes, settings, and imported materials stay in the Windows app-data folder for Studora. Open that folder from Settings. Avoid deleting it when upgrading. New workspaces default to the free local tutor. After its one-time 5.61 GB setup, Gemma 4 runs on your computer without a cloud account or API charges. This mode sends messages and selected materials only to the local inference engine. Other AI connections send selected context to their provider; OpenAI API keys use Windows secure storage when available. Nothing in your study workspace is uploaded to GitHub by the update feature.
 
 PDF, Word, image, and text imports, lesson/example organization, interactive geometry, working-board drawings, source-based explanations, practice, exam planning, and bilingual Arabic tutoring are included. Video sources currently use pasted transcripts.
 
@@ -40,7 +40,7 @@ Run `node scripts/ai-ui-test.cjs` to verify connection diagnostics and request c
 
 ### Use ChatGPT without an API key
 
-Settings → AI connection defaults to ChatGPT plan. Click **Continue with ChatGPT**, authorize Studora in the system browser, and choose a model from your account. Eligibility, models, and limits are controlled by OpenAI. Keep paid credits disabled in ChatGPT Usage settings if you want included usage only. Studora never falls back to a paid API key. OAuth credentials are encrypted separately from study data and excluded from backups. If secure storage is unavailable, the connection lasts for the session only.
+ChatGPT plan is an optional connection in Settings → AI connection. Click **Continue with ChatGPT**, authorize Studora in the system browser, and choose a model from your account. Eligibility, models, and limits are controlled by OpenAI. Keep paid credits disabled in ChatGPT Usage settings if you want included usage only. Studora never falls back to a paid API key. OAuth credentials are encrypted separately from study data and excluded from backups. If secure storage is unavailable, the connection lasts for the session only.
 
 Tutoring stays inside Studora: sign in, select a model, and send a question. OpenAI controls account eligibility and limits; Studora shows restrictions without a copy/paste workaround or automatic paid fallback.
 
@@ -53,3 +53,19 @@ The editable brand source is `ui/brand.svg`. Raster assets and a multi-size Wind
 ### Subject lesson organization
 
 In a subject's Lessons tab, choose **Lesson organization** (also available in Subject options and Settings → Subjects & organization). Math starts with chapters, numbered lessons, and optional worked-example labels. Science subjects start with modules and numbered lessons. Arabic, KSA, English, and Islamic Studies start with lesson names. Choose a preset or customize grouping, labels, numbering, and examples for each subject. Changing structure keeps saved lesson fields and sources; hidden fields return when re-enabled. Run `node scripts/lessons-ui-test.cjs` to check subject forms, AI context, migration, and persistence with a mocked provider.
+
+### Free local tutor
+
+Choose **Free local tutor** in Settings → AI connection and click **Set up free tutor**. Setup downloads pinned, checksum-verified engine and model components, supports pause/resume, and shows progress. It requires about 5.61 GB for the download plus engine storage, and runs best on Windows with 16 GB RAM and a dedicated GPU. It can use CPU memory when the full model does not fit the GPU. Initial startup takes longer than follow-up replies. The engine releases memory after two idle minutes and stops when Studora quits.
+
+Chat directly in any subject. Answers appear while they are generated; numerical checks use the existing calculator, and selected PDF pages become images for the vision model. Select a short lesson excerpt and at most two photos or PDF pages per question. Scanned books with many pages require a photo of the relevant page. Video requires a transcript. Sources, recent messages and saved subject guidance are included within a bounded local context. Important diagram labels must remain legible.
+
+**Tutor guidance** beside each subject in Settings saves checked corrections and teaching preferences for future conversations. This is editable context, not weight training. **Extra review for harder questions** adds a short reasoning step for Arabic, chemistry and proofs; turning it off favors speed. Local tutoring has no API billing and never falls back to a paid provider. It does not guarantee perfect answers or 99% accuracy.
+
+Run `node scripts/local-ai-ui-test.cjs` for a mocked local connection test; `npm test` also covers the adapter, streaming, download integrity and PDF preparation. Runtime/model binaries are excluded from Git and the installer. See [third-party notices](THIRD-PARTY-NOTICES.md).
+
+## Source folders
+
+Open a subject → Sources → New folder. Optionally link a lesson. Add materials while that folder is selected or move existing files using each source’s Folder selector. Folder removal keeps files in Unfiled; backups include folder organization.
+
+If the local AI was already downloaded, choose Settings → AI connection → Free local tutor → Use existing download and select its folder. Studora verifies the model and engine, then reuses model storage on the same drive. No second model download is needed.

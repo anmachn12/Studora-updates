@@ -1,0 +1,12 @@
+const {_electron:electron}=require('@playwright/test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path');
+const {PDFDocument}=require('pdf-lib'),{seed}=require('../core.cjs');
+(async()=>{
+ if(!process.argv[2])throw Error('Pass the packaged Studora.exe path.');
+ const data=path.resolve(__dirname,'../../packaged-local-ai-'+Date.now()),state=seed(),subject=state.subjects[0],id='12345678-1234-1234-1234-123456789012';
+ const pdf=await PDFDocument.create();pdf.addPage([400,300]).drawText('Triangle: 30, 60, x');await fs.mkdir(path.join(data,'sources'),{recursive:true});await fs.writeFile(path.join(data,'sources','sample.pdf'),await pdf.save());state.sources.push({id,subjectId:subject.id,name:'Sample geometry page',file:'sample.pdf',ext:'.pdf',status:'ready',pages:[{page:1,text:'Triangle angles 30,60,x'}]});await fs.writeFile(path.join(data,'workspace.json'),JSON.stringify(state));
+ const env={...process.env,STUDORA_TEST:'1',STUDORA_DATA_DIR:data};delete env.ELECTRON_RUN_AS_NODE;
+ const app=await electron.launch({executablePath:path.resolve(process.argv[2]),args:['--no-sandbox'],env});try{const page=await app.firstWindow();await page.getByRole('heading',{name:'Overview',exact:true}).waitFor();await app.evaluate(()=>{global.__packagedLocalInputs=[];global.__studoraLocalAI.request=async(endpoint,body)=>{global.__packagedLocalInputs.push(body);return {status:'completed',output:[{type:'message',content:[{type:'output_text',text:'The answer is 90 degrees.'}]}],usage:{input_tokens:10,output_tokens:5}}}});
+  const out=await page.evaluate(({subject,id})=>window.studora.ask({subjectId:subject,prompt:'Explain this triangle',sourceIds:[id],language:'English'}),{subject:subject.id,id});assert.match(out.text,/90/);const body=await app.evaluate(()=>global.__packagedLocalInputs[0]);assert.ok(body.input.at(-1).content.some(x=>x.type==='input_image'&&x.image_url.startsWith('data:image/png;base64,')));assert.ok(!body.input.at(-1).content.some(x=>x.type==='input_file'));assert.match(body.instructions,/Sample geometry page/);assert.equal((await page.evaluate(()=>window.studora.localAIStatus())).model,require('../local-ai-config.json').id);
+  console.log('PASS: packaged local provider files, model metadata, PDF renderer and selected visual page. No model download or inference performed.');
+ }finally{await app.close()}
+})().catch(error=>{console.error(error);process.exitCode=1});

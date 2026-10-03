@@ -37,8 +37,12 @@ jobs:
         run: node scripts/navigation-ui-test.cjs
       - name: Test API connection and model compatibility
         run: node scripts/ai-ui-test.cjs
+      - name: Test free local tutor interface
+        run: node scripts/local-ai-ui-test.cjs
       - name: Test subject lesson organization
         run: node scripts/lessons-ui-test.cjs
+      - name: Test lesson source folders
+        run: node scripts/source-folders-ui-test.cjs
       - name: Check version publication
         id: version
         shell: pwsh
@@ -62,6 +66,9 @@ jobs:
       - name: Test packaged background updates
         if: steps.version.outputs.publish == 'true'
         run: node scripts/packaged-background-test.cjs dist/win-unpacked/Studora.exe
+      - name: Test packaged local tutor and PDF support
+        if: steps.version.outputs.publish == 'true'
+        run: node scripts/packaged-local-ai-test.cjs dist/win-unpacked/Studora.exe
       - name: Publish stable release
         if: steps.version.outputs.publish == 'true'
         shell: pwsh

@@ -1,6 +1,6 @@
 const {_electron:electron}=require('playwright'),path=require('node:path'),fs=require('node:fs/promises'),assert=require('node:assert/strict'),{seed}=require('../core.cjs');
 (async()=>{
- const data=path.resolve(__dirname,'../../ai-test-'+Date.now()),state=seed();state.settings.sound=false;state.settings.model='gpt-3.5-turbo-instruct-0914';const math=state.subjects.find(s=>s.name==='Math');
+ const data=path.resolve(__dirname,'../../ai-test-'+Date.now()),state=seed();state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.aiMode='chatgpt';state.settings.sound=false;state.settings.model='gpt-3.5-turbo-instruct-0914';const math=state.subjects.find(s=>s.name==='Math');
  const sourceId='12345678-1234-1234-1234-123456789012',lessonId='lesson-geometry';
  state.sources.push({id:sourceId,subjectId:math.id,name:'Geometry textbook',ext:'.pdf',status:'ready',pages:[{page:1,text:'EXCLUDED PAGE'},{page:2,text:'Example 3: triangle angles total 180 degrees.'}]});
  state.lessons.push({id:lessonId,subjectId:math.id,chapter:'Chapter 2',number:'2.1',title:'Triangle angles',examples:['1','2','3','4'],sourceIds:[sourceId],pageStart:2,pageEnd:2});
