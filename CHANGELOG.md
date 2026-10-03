@@ -1,3 +1,12 @@
+# Studora 0.1.11
+
+Give the local tutor more relevant tools and clearer Arabic reference rules.
+
+- Keep interactive explanations in every subject, offer geometry workspaces in Math, and retain calculator access for science and other numerical questions. Avoid unrelated tool requests.
+- Check eligible written arithmetic in Chemistry as well as Math and Physics. These checks do not verify chemical reasoning, units or an entire answer.
+- Clarify dual noun case markers, annexation and grammatical roles in the Arabic reference. The small local model can still give incorrect grammar answers.
+- Add harder development cases for all eight subjects, including a marked geometry image, and record startup events, partial answers and first streamed text during timed evaluations. This is testing and application improvement, not training model weights or a claim of 99% accuracy.
+
 # Studora 0.1.10
 
 Install app updates quietly and reopen Studora automatically.

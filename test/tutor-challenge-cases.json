@@ -1,0 +1,54 @@
+[
+  {
+    "id": "math-diagram-challenge",
+    "name": "Math",
+    "prompt": "Read the marked diagram. Find x, all three interior angles, and exterior angle ACD. Justify the equality you use; do not rely on how the drawing looks. Finish every part.",
+    "expected": "AB=AC from tick marks; B=C gives3x+5=5x-19 x12;B=C41;A98;ACD139. No assertion that triangle is equilateral.",
+    "diagramSvg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"420\" viewBox=\"0 0 600 420\"><rect width=\"600\" height=\"420\" fill=\"white\"/><g stroke=\"black\" stroke-width=\"3\" fill=\"none\"><path d=\"M280 45 L65 345 L465 345 Z M465 345 L570 345\"/><path d=\"M162 182 L180 194 M359 183 L378 171\"/></g><g font-family=\"Arial\" font-size=\"26\" fill=\"black\"><text x=\"270\" y=\"30\">A</text><text x=\"35\" y=\"378\">B</text><text x=\"450\" y=\"378\">C</text><text x=\"555\" y=\"378\">D</text><text x=\"87\" y=\"322\">(3x + 5)°</text><text x=\"320\" y=\"322\">(5x − 19)°</text></g></svg>"
+  },
+  {
+    "id": "arabic-compound-challenge",
+    "name": "Arabic",
+    "prompt": "أعرب الكلمات بين القوسين فقط في الجملتين، مع الوظيفة النحوية والحالة والعلامة وسببها: إنّ (المعلّمَيْنِ) (حاضرانِ). كان (الطالبانِ) (مجتهدَيْنِ). ثم اشرح هل تحذف نون المثنى لمجرد دخول إنّ أو كان؟ أعط مثالاً صحيحاً للمثنى المضاف، ولا تخلط العلامات الأصلية والفرعية.",
+    "expected": "المعلمين اسم إن منصوب بالياء مثنى؛حاضران خبرإن مرفوع بالألف؛الطالبان اسمكان مرفوع بالألف؛مجتهدين خبركان منصوب بالياء؛الألف والياء فرعيتان؛نونتبقى معإن وكان وتحذف للإضافة مثلحضرطالباالمدرسة."
+  },
+  {
+    "id": "physics-projectile-challenge",
+    "name": "Physics",
+    "prompt": "A ball is thrown vertically upward from ground level at20m/s. Take upward positive and g=9.8m/s², ignore air resistance. Find velocity and height after3s, maximum height, and total flight time. Explain why velocity can be negative while height is positive. Show equations and units. Do not confuse speed and velocity.",
+    "expected": "v=-9.4m/s;y15.9m;hmax20.408m;flight4.082s;movingdownstillaboveground."
+  },
+  {
+    "id": "chemistry-limiting-challenge",
+    "name": "Chemistry",
+    "prompt": "4.8g Mg reacts with0.30mol HCl. Mg+2HCl→MgCl2+H2. Mg molar mass24g/mol; gas molar volume24dm³/mol. Identify the limiting reagent, calculate H2 moles and gas volume, and the mass of Mg left. Explain the mole ratio and check all four answers.",
+    "expected": "Mg0.20mol;HCl limiting;H2=0.15mol;volume3.6dm³;Mgleft0.05mol=1.2g."
+  },
+  {
+    "id": "biology-linkage-challenge",
+    "name": "Biology",
+    "prompt": "Use the provided reference. In a testcross AaBb × aabb,400 offspring are: AB phenotype190, ab190, Ab10, aB10. Is independent assortment supported? Calculate recombination percentage, identify parental/recombinant classes, and explain what the evidence supports without calling it proof of a precise chromosome location.",
+    "source": "Evaluation reference: an independently assorting dihybrid testcross has expected phenotype ratio1:1:1:1. Excess parental classes suggest linked genes. Recombination percentage=(recombinant offspring/total offspring)×100. A low percentage estimates genetic distance in centimorgans; it does not give an exact physical DNA position.",
+    "expected": "independentexpect100each;parentsABab;recombinantsAb aB20;5%;suggestlinkage~5cMnotexactDNAposition."
+  },
+  {
+    "id": "english-analysis-challenge",
+    "name": "English",
+    "prompt": "Passage: “The street swallowed her footsteps. How welcoming, she thought, staring at the locked doors.” Identify two literary techniques using exact short evidence and explain their effects. Is the narrator definitely unreliable? Explain what cannot be inferred. Then convert “The caretaker had locked the doors before she arrived” into passive voice, preserving both tenses.",
+    "expected": "personificationstreet swallowed;verbalironyhowwelcomingvslockeddoors;isolationhostility;insufficientunreliabilityevidence;Doorshadbeenlockedbycaretakerbeforeshearrived."
+  },
+  {
+    "id": "islamic-evidence-challenge",
+    "name": "Islamic Studies",
+    "prompt": "من المصدر المحدد فقط: وصلتك رسالة تتهم زميلاً بالغش بلا دليل، وطلب منك صديق نشرها فوراً. اشرح خطوتين مناسبتين قبل التصرف وسبب كل خطوة، وميّز الدليل القرآني من الحديث. هل يسمح المصدر باتهام الزميل؟ إذا طلب منك رقم حديث يثبت النص، ماذا تقول؟ لا تخترع حديثاً أو رقم مصدر.",
+    "source": "المصدر المعطى للتقييم: مقتطف من سورة الحجرات، الآية6: «فتبينوا». المقتطف دليل قرآني يدعو إلى التحقق من الخبر قبل بناء التصرف عليه. لا يوجد حديث في المصدر المعطى ولا دليل يثبت وقوع الغش.",
+    "expected": "يتحققمنالخبر؛لاينشراتهاماًبلااثبات؛آيةقرآنيةلاحديث؛لايمكنتوفيررقمحديثلأنالمصدرليسحديثاً؛لاتثبتتهمةالغش."
+  },
+  {
+    "id": "ksa-source-reasoning-challenge",
+    "name": "KSA Studies",
+    "prompt": "Using only the supplied timeline, order the three milestones and calculate both intervals from1902 to1925 and1925 to1932. A classmate says “The recovery of Riyadh and proclamation of the Kingdom were the same event because both involved King Abdulaziz.” Evaluate that claim. Does the source alone establish the only reason for unification? Separate supported facts from inference.",
+    "source": "Evaluation timeline:1902—recovery of Riyadh;1925—control of the Hijaz;1932—proclamation of the Kingdom of Saudi Arabia. These entries identify milestones, not a complete list of causes or events.",
+    "expected": "1902then1925then1932;23years7years;claimfalsecityrecoveryvsKingdomproclamation30yeargap;sourcedoesnotestablishsolecause."
+  }
+]
