@@ -11,4 +11,5 @@ function request(payload,state,index){
 }
 function assemble(payload,state,questions){const first=request(payload,state,0);return {id:randomUUID(),subjectId:first.subject.id,lessonId:first.lesson?.id||null,title:(first.lesson?context(first.lesson,first.subject):first.topic||first.subject.name)+' · Practice test',sourceIds:first.sourceIds,questions:questions.map(q=>({...q,id:randomUUID()})),answers:{},marks:{},createdAt:new Date().toISOString(),submittedAt:null};}
 const questionSchema={type:'object',properties:{prompt:{type:'string'},options:{type:'array',items:{type:'string'},maxItems:4},answer:{type:'string'},explanation:{type:'string'},sourceId:{type:'string'},page:{type:'integer'}},required:['prompt','options','answer','explanation','sourceId','page'],additionalProperties:false};
-module.exports={request,assemble,parseQuestion,questionSchema};
+function schemaForPages(pages){return {...questionSchema,properties:{...questionSchema.properties,sourceId:{type:'string',enum:['',...new Set(pages.map(p=>p.sourceId))]},page:{type:'integer',enum:[...new Set([1,...pages.map(p=>p.page)])]}}}}
+module.exports={request,assemble,parseQuestion,questionSchema,schemaForPages};

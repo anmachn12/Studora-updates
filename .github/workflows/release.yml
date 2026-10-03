@@ -47,6 +47,8 @@ jobs:
         run: node scripts/practice-tests-ui-test.cjs
       - name: Test streaming response isolation and formatting
         run: node scripts/stream-routing-ui-test.cjs
+      - name: Test practice source references
+        run: node scripts/practice-citations-ui-test.cjs
       - name: Check version publication
         id: version
         shell: pwsh
@@ -76,6 +78,9 @@ jobs:
       - name: Test packaged practice papers and PDFs
         if: steps.version.outputs.publish == 'true'
         run: node scripts/practice-tests-ui-test.cjs dist/win-unpacked/Studora.exe
+      - name: Test packaged practice source references
+        if: steps.version.outputs.publish == 'true'
+        run: node scripts/practice-citations-ui-test.cjs dist/win-unpacked/Studora.exe
       - name: Publish stable release
         if: steps.version.outputs.publish == 'true'
         shell: pwsh

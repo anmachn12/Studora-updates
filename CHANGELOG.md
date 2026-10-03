@@ -1,3 +1,14 @@
+# Studora 0.1.9
+
+Create practice tests without getting blocked by an invalid AI source reference.
+
+- Keep otherwise valid questions when the AI supplies an unsupported citation. Remove that reference and show a notice during answer review instead of failing the entire test.
+- Preserve exact references to text excerpts, photos, and the original pages of scanned PDFs actually sent to the tutor. Do not replace a missing reference with an unrelated source.
+- Accept supported citation formatting and numeric page strings; remove unsupported inline citations from question text, choices, and explanations.
+- Constrain local test generation to supplied source IDs and page numbers, and label attached images with their original source references.
+
+Existing sources and saved tests are preserved. This fixes source-link handling; it does not certify AI answers as correct.
+
 # Studora 0.1.8
 
 Take a saved practice test and navigate lessons with a clear sidebar hierarchy.
