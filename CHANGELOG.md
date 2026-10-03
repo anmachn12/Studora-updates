@@ -1,3 +1,14 @@
+# Studora 0.1.5
+
+A distinctive new Studora icon, with tutoring kept inside your learning workspace.
+
+- Replace the generic app icon with a forest-green S ribbon and a folded-page detail.
+- Use the same brand mark in the desktop shortcut, Windows executable, taskbar, tray, app header, and Home button.
+- Include nine Windows icon sizes so the mark stays clear at small and large display sizes.
+- Remove the copy/paste ChatGPT workflow. Ask questions and receive answers directly inside Studora after connecting an eligible ChatGPT account.
+- Retry a rejected sign-in code once with a fresh authorization and the issued account registration. Show clearer errors, hide sensitive details, and preserve existing connections when a retry fails.
+- Keep unsent questions when sign-in is required, and explain connection restrictions in the app. Never fall back to a paid API key automatically.
+
 # Studora 0.1.4
 
 Use eligible ChatGPT plan access without a paid API key, with clearer model choices and connection diagnostics.

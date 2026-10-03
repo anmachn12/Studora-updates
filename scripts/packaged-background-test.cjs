@@ -1,5 +1,8 @@
 const {_electron:electron}=require('playwright'),path=require('node:path'),assert=require('node:assert/strict');
-(async()=>{if(!process.argv[2])throw Error('Pass the packaged Studora.exe path.');const env={...process.env,STUDORA_TEST:'1',STUDORA_DATA_DIR:path.resolve(__dirname,'../../packaged-background-test-'+Date.now())};delete env.ELECTRON_RUN_AS_NODE;
+(async()=>{if(!process.argv[2])throw Error('Pass the packaged Studora.exe path.');
+const fs=require('node:fs/promises'),ico=await fs.readFile(path.resolve(__dirname,'../assets/studora.ico')),exe=await fs.readFile(path.resolve(process.argv[2]));
+const last=6+(ico.readUInt16LE(4)-1)*16,frame=ico.subarray(ico.readUInt32LE(last+12),ico.readUInt32LE(last+12)+ico.readUInt32LE(last+8));
+assert.ok(exe.includes(frame),'Packaged Windows executable must embed the new Studora icon.');const env={...process.env,STUDORA_TEST:'1',STUDORA_DATA_DIR:path.resolve(__dirname,'../../packaged-background-test-'+Date.now())};delete env.ELECTRON_RUN_AS_NODE;
 const app=await electron.launch({executablePath:path.resolve(process.argv[2]),args:['--no-sandbox'],env});try{const page=await app.firstWindow();await page.getByRole('heading',{name:'Overview',exact:true}).waitFor();
 await app.evaluate(({BrowserWindow})=>{BrowserWindow.getAllWindows()[0].show();const u=global.__studoraTestUpdater;u.quitAndInstall=()=>{throw Error('Background download must never install.')};u.downloadUpdate=async()=>{global.__backgroundDownloads=(global.__backgroundDownloads||0)+1;u.emit('download-progress',{percent:50});u.emit('update-downloaded',{version:'0.2.0'})};u.emit('update-available',{version:'0.2.0',releaseNotes:'Background download test.'})});
 await page.locator('#update-notice').waitFor({state:'visible'});assert.equal(await app.evaluate(()=>global.__backgroundDownloads||0),0);

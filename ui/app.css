@@ -25,3 +25,6 @@ html[data-navigation-motion=tab]::view-transition-group(study-canvas),html[data-
 @keyframes study-sidebar-out{to{opacity:0}}
 @keyframes study-sidebar-in{from{opacity:0;transform:translateY(calc(var(--navigation-y)*.5))}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+
+/* Studora brand: stable, legible and consistent in both themes. */
+.brand-mark{display:block;flex-shrink:0;object-fit:contain}.wordmark .brand-mark{width:24px;height:24px}.rail-home .brand-mark{width:28px;height:28px}

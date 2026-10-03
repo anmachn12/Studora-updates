@@ -58,3 +58,33 @@ test('cancelled OAuth does not replace an account or leave a callback server run
  const manager=createChatGPT({dataDir:dir,safeStorage:{decryptString:()=>{throw Error()},isEncryptionAvailable:()=>false},openExternal:async()=>notify(),timeoutMs:5000});
  const signIn=manager.signIn();await opened;manager.cancel();await assert.rejects(signIn,/cancelled/);assert.equal((await manager.status()).connected,false);await fs.rm(dir,{recursive:true,force:true});
 });
+test('rejected authorization retries once with issued registration and fresh PKCE; repeated errors are bounded and redacted',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'studora-retry-test-'));let auth,failures=1,exchanges=0,opens=[];
+ const json=data=>({ok:true,json:async()=>data});
+ const manager=createChatGPT({dataDir:dir,safeStorage:{isEncryptionAvailable:()=>false},timeoutMs:5000,
+  openExternal:async raw=>{auth=new URL(raw);opens.push(auth);const callback=new URL(auth.searchParams.get('redirect_uri'));callback.search=new URLSearchParams({state:auth.searchParams.get('state'),client_id:'oaiapp_retry',code:'secret-code-'+opens.length}).toString();await fetch(callback);},
+  fetcher:async(url,opts)=>{
+   if(url.endsWith('openid-configuration'))return json({issuer:claims.iss,jwks_uri:claims.iss+'/.well-known/jwks.json'});
+   if(url.endsWith('jwks.json'))return json({keys:[jwk]});
+   assert.ok(url.endsWith('/oauth/token'));exchanges++;const fields=new URLSearchParams(opts.body);
+   assert.equal(fields.get('client_id'),'oaiapp_retry');assert.equal(fields.get('redirect_uri'),auth.searchParams.get('redirect_uri'));
+   assert.equal(createHash('sha256').update(fields.get('code_verifier')).digest('base64url'),auth.searchParams.get('code_challenge'));
+   if(failures-->0)return {ok:false,json:async()=>({error:'invalid_grant',error_description:'Expired '+fields.get('code')+' '+fields.get('code_verifier')+' https://example.invalid/?code=secret sk-fixture-secret'})};
+   return json({access_token:'fixture-access',id_token:jwt({...claims,aud:'oaiapp_retry',nonce:auth.searchParams.get('nonce')}),scope:'chatgpt.tokens.use.direct'});
+  }});
+ try{
+  assert.equal((await manager.signIn()).connected,true);assert.equal(exchanges,2);
+  assert.equal(opens[0].searchParams.get('client_id'),'dynamic_agent_client');assert.equal(opens[1].searchParams.get('client_id'),'oaiapp_retry');assert.equal(opens[1].searchParams.get('agent_name_hint'),null);
+  for(const field of ['state','nonce','code_challenge'])assert.notEqual(opens[0].searchParams.get(field),opens[1].searchParams.get(field));
+  assert.equal(opens[0].searchParams.get('ext_agent_host_id'),opens[1].searchParams.get('ext_agent_host_id'));
+  failures=10;await assert.rejects(manager.signIn('oaiapp_retry'),error=>{assert.match(error.message,/fresh sign-in was also rejected/);assert.doesNotMatch(error.message,/secret-code|sk-fixture|https:/);return true;});
+  assert.equal(exchanges,4);assert.equal((await manager.status()).connected,true);assert.equal((await manager.status()).accounts.length,1);
+ }finally{manager.cancel();await fs.rm(dir,{recursive:true,force:true});}
+});
+test('retry can be cancelled without accepting an unverified registration',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'studora-retry-cancel-'));let count=0,notify;const retryOpened=new Promise(r=>notify=r);
+ const manager=createChatGPT({dataDir:dir,safeStorage:{isEncryptionAvailable:()=>false},timeoutMs:5000,
+  fetcher:async()=>({ok:false,json:async()=>({error:'invalid_grant'})}),
+  openExternal:async raw=>{if(++count===2){notify();return;}const auth=new URL(raw),callback=new URL(auth.searchParams.get('redirect_uri'));callback.search=new URLSearchParams({state:auth.searchParams.get('state'),code:'fixture-code',client_id:'oaiapp_cancel'}).toString();await fetch(callback);}});
+ try{const result=manager.signIn();await retryOpened;manager.cancel();await assert.rejects(result,/cancelled/);assert.equal((await manager.status()).accounts.length,0);}finally{manager.cancel();await fs.rm(dir,{recursive:true,force:true});}
+});

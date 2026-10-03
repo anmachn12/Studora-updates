@@ -1,6 +1,6 @@
 {
   "name": "studora",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Your personal learning workspace",
   "main": "main.cjs",
   "author": "Studora",
@@ -47,11 +47,13 @@
       "background.cjs",
       "tray-icon.cjs",
       "openai.cjs",
-      "chatgpt.cjs"
+      "chatgpt.cjs",
+      "assets/**/*"
     ],
     "win": {
       "target": "nsis",
-      "signAndEditExecutable": false
+      "signExecutable": false,
+      "icon": "assets/studora.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -59,7 +61,9 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "artifactName": "Studora-Setup-${version}.exe"
+      "artifactName": "Studora-Setup-${version}.exe",
+      "installerIcon": "assets/studora.ico",
+      "uninstallerIcon": "assets/studora.ico"
     },
     "publish": [
       {

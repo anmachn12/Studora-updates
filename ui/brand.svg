@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <rect x="16" y="16" width="480" height="480" rx="116" fill="#244D3D"/>
+  <!-- A continuous S ribbon, with page-like terminals and a folded corner. -->
+  <path d="M349 122
+    C323 101 291 88 255 88
+    C180 88 133 130 133 185
+    C133 240 172 269 226 289
+    L274 307
+    C301 317 315 329 315 348
+    C315 375 292 391 256 391
+    C220 391 190 375 165 351
+    L125 396
+    C160 431 208 450 258 450
+    C341 450 391 407 391 346
+    C391 291 353 262 297 241
+    L253 225
+    C226 215 208 202 208 183
+    C208 160 228 145 258 145
+    C284 145 308 156 329 174
+    L349 122Z" transform="translate(0 -13)" fill="#F6F4EA"/>
+  <path d="M349 109 329 161 311 146Z" fill="#9CBAA5"/>
+</svg>

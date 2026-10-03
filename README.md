@@ -42,6 +42,10 @@ Run `node scripts/ai-ui-test.cjs` to verify connection diagnostics and request c
 
 Settings → AI connection defaults to ChatGPT plan. Click **Continue with ChatGPT**, authorize Studora in the system browser, and choose a model from your account. Eligibility, models, and limits are controlled by OpenAI. Keep paid credits disabled in ChatGPT Usage settings if you want included usage only. Studora never falls back to a paid API key. OAuth credentials are encrypted separately from study data and excluded from backups. If secure storage is unavailable, the connection lasts for the session only.
 
-If plan access is unavailable, click **Prepare for ChatGPT** in a subject: review and copy the question, numbered lesson/example context, and selected excerpts. Open ChatGPT in your browser and paste them. Attach original diagrams or scans yourself. Use **Paste ChatGPT reply** to save the explanation locally. Copied replies are labeled and not claimed as verified. This option makes no API requests.
+Tutoring stays inside Studora: sign in, select a model, and send a question. OpenAI controls account eligibility and limits; Studora shows restrictions without a copy/paste workaround or automatic paid fallback.
 
 Official integration references: https://developers.openai.com/siwc/token-sharing-open-source/sign-in and https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference .
+
+### App icon
+
+The editable brand source is `ui/brand.svg`. Raster assets and a multi-size Windows ICO live in `assets/`. Executable resource editing applies the Windows icon and metadata while code signing remains disabled.
