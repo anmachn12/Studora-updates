@@ -38,7 +38,7 @@ function createUpdateManager({app, updater, config, emit=()=>{}, beforeInstall=a
     if(state.status!=='downloaded')throw new Error('Download the update before installing.');
     await beforeInstall(); // Refuse while AI is running; await all saved workspace writes.
     change({status:'installing'});
-    try{updater.quitAndInstall(false,true)}catch{fail()}
+    try{updater.quitAndInstall(true,true)}catch{fail()}
     return snapshot();
   }
   return {snapshot,check,download,downloadInBackground,install};

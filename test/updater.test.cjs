@@ -13,7 +13,17 @@ test('public release feed checks without downloading or installing automatically
   assert.deepEqual(updater.feed,{provider:'github',owner:'anmachn12',repo:'Studora-updates',private:false});
   assert.equal((await manager.check()).status,'available');assert.equal(updater.installArgs,undefined);
   assert.equal((await manager.download()).status,'downloaded');assert.equal(updater.installArgs,undefined);
-  await manager.install();assert.deepEqual(updater.installArgs,[false,true]);
+  await manager.install();assert.deepEqual(updater.installArgs,[true,true]);
+});
+test('Windows updater launches the installer silently and requests relaunch',async()=>{
+  const {NsisUpdater}=require('electron-updater/out/NsisUpdater');
+  const {manager,updater}=setup();let launch;
+  updater.quitAndInstall=(isSilent,isForceRunAfter)=>{
+    const receiver={installerPath:'C:\\Studora test\\update.exe',downloadedUpdateHelper:null,spawnLog:async(file,args)=>{launch={file,args}},dispatchError:error=>{throw error}};
+    assert.equal(NsisUpdater.prototype.doInstall.call(receiver,{isSilent,isForceRunAfter,isAdminRightsRequired:false}),true);
+  };
+  await manager.check();await manager.download();assert.equal(launch,undefined);
+  await manager.install();assert.deepEqual(launch,{file:'C:\\Studora test\\update.exe',args:['--updated','/S','--force-run']});
 });
 test('saving must complete before update installation',async()=>{
   let saved=false;const {manager,updater}=setup(true,async()=>{saved=true});

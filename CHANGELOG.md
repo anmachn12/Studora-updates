@@ -1,3 +1,13 @@
+# Studora 0.1.10
+
+Install app updates quietly and reopen Studora automatically.
+
+- The in-app Install and restart action now runs the Windows upgrade in silent mode, without asking you to choose installation options again.
+- Restart Studora after the upgrade. Keep background downloads separate from installation; installation still waits for your click.
+- Save pending workspace changes and finish or stop the tutor before restarting, as before.
+
+Versions up to 0.1.9 may still show the setup wizard when installing this fix. Complete that upgrade once; subsequent in-app updates use the quieter flow. Your study data and existing installation are preserved.
+
 # Studora 0.1.9
 
 Create practice tests without getting blocked by an invalid AI source reference.
