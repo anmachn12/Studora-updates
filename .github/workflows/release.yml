@@ -37,6 +37,8 @@ jobs:
         run: node scripts/navigation-ui-test.cjs
       - name: Test API connection and model compatibility
         run: node scripts/ai-ui-test.cjs
+      - name: Test subject lesson organization
+        run: node scripts/lessons-ui-test.cjs
       - name: Check version publication
         id: version
         shell: pwsh

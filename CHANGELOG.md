@@ -1,3 +1,14 @@
+# Studora 0.1.6
+
+Organize every subject the way its textbook works.
+
+- Math uses chapters, lesson identifiers such as 2.1, and any number of worked examples. Example lists start empty so they match your book.
+- Physics, Biology, and Chemistry use modules with numbered lessons, such as Module 20 → Lesson 1.
+- Arabic and KSA Studies use lesson names without required chapter, lesson, or example numbers. English and Islamic Studies start with named lessons too.
+- Customize each subject in Lesson organization: choose chapters, modules, or names; change group labels and numbering; enable or disable worked examples.
+- Apply the chosen structure to the sidebar, lesson forms, conversation labels, search, and tutor context.
+- Preserve existing lessons, chats, sources, page ranges, and example lists when you change structure or upgrade.
+
 # Studora 0.1.5
 
 A distinctive new Studora icon, with tutoring kept inside your learning workspace.

@@ -49,3 +49,7 @@ Official integration references: https://developers.openai.com/siwc/token-sharin
 ### App icon
 
 The editable brand source is `ui/brand.svg`. Raster assets and a multi-size Windows ICO live in `assets/`. Executable resource editing applies the Windows icon and metadata while code signing remains disabled.
+
+### Subject lesson organization
+
+In a subject's Lessons tab, choose **Lesson organization** (also available in Subject options and Settings → Subjects & organization). Math starts with chapters, numbered lessons, and optional worked-example labels. Science subjects start with modules and numbered lessons. Arabic, KSA, English, and Islamic Studies start with lesson names. Choose a preset or customize grouping, labels, numbering, and examples for each subject. Changing structure keeps saved lesson fields and sources; hidden fields return when re-enabled. Run `node scripts/lessons-ui-test.cjs` to check subject forms, AI context, migration, and persistence with a mocked provider.
