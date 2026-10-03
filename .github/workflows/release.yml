@@ -43,6 +43,10 @@ jobs:
         run: node scripts/lessons-ui-test.cjs
       - name: Test lesson source folders
         run: node scripts/source-folders-ui-test.cjs
+      - name: Test practice tests and sidebar hierarchy
+        run: node scripts/practice-tests-ui-test.cjs
+      - name: Test streaming response isolation and formatting
+        run: node scripts/stream-routing-ui-test.cjs
       - name: Check version publication
         id: version
         shell: pwsh
@@ -69,6 +73,9 @@ jobs:
       - name: Test packaged local tutor and PDF support
         if: steps.version.outputs.publish == 'true'
         run: node scripts/packaged-local-ai-test.cjs dist/win-unpacked/Studora.exe
+      - name: Test packaged practice papers and PDFs
+        if: steps.version.outputs.publish == 'true'
+        run: node scripts/practice-tests-ui-test.cjs dist/win-unpacked/Studora.exe
       - name: Publish stable release
         if: steps.version.outputs.publish == 'true'
         shell: pwsh

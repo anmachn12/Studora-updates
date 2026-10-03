@@ -1,0 +1,64 @@
+[
+  {
+    "id": "math-isosceles-heldout",
+    "name": "Math",
+    "prompt": "Triangle ABC is isosceles with AB=AC. Its angle B is 68 degrees. Find angles A and C and justify both steps. Check your final angle sum.",
+    "expected": "C68,A44;equal base angles,triangle sum180"
+  },
+  {
+    "id": "math-similar-heldout",
+    "name": "Math",
+    "prompt": "Triangle PQR is similar to triangle XYZ in that order. PQ=8, QR=12, XY=14. Find YZ. Explain the correspondence and verify the scale factor.",
+    "expected": "YZ21;14/8=1.75"
+  },
+  {
+    "id": "arabic-dual-heldout",
+    "name": "Arabic",
+    "prompt": "أعرب كلمة الفائزان في الجملة: وصل الفائزانِ. ما علامة رفعها؟ هل تحذف النون لأنها مرفوعة؟",
+    "expected": "فاعل مرفوع بالألف مثنى؛ تبقى النون وليست علامة رفع"
+  },
+  {
+    "id": "arabic-passive-heldout",
+    "name": "Arabic",
+    "prompt": "أعرب كلمة الكتاب في الجملة: قُرِئَ الكتابُ. وضح لماذا ليست فاعلاً.",
+    "expected": "نائب فاعل مرفوع بالضمة؛فعل مبني للمجهول"
+  },
+  {
+    "id": "english-heldout",
+    "name": "English",
+    "prompt": "Change this sentence into passive voice without changing its tense: The students have completed the experiment. Explain the auxiliary sequence.",
+    "expected": "The experiment has been completed by the students; present perfect passive has been+past participle"
+  },
+  {
+    "id": "physics-heldout",
+    "name": "Physics",
+    "prompt": "A 2kg cart speeds up uniformly from 3m/s to 15m/s in 4s. Find acceleration and net force. Show units and check the arithmetic.",
+    "expected": "3m/s² and6N"
+  },
+  {
+    "id": "biology-heldout",
+    "name": "Biology",
+    "prompt": "A diploid organism has 30 chromosomes. State the number of daughter cells and chromosomes per cell after mitosis and after meiosis. Explain why meiosis matters for fertilization.",
+    "expected": "2cells30 mitosis;4cells15 meiosis; restore30fusion"
+  },
+  {
+    "id": "chemistry-heldout",
+    "name": "Chemistry",
+    "prompt": "Balance Al + O2 -> Al2O3 with smallest whole-number coefficients and check both element counts. Then calculate the moles in 27g Al using molar mass27g/mol.",
+    "expected": "4Al+3O2->2Al2O3;4Al6O;1mol"
+  },
+  {
+    "id": "islamic-heldout",
+    "name": "Islamic Studies",
+    "prompt": "اعتماداً على النص المحدد فقط، ما السلوك الذي ينهى عنه؟ اعط مثالاً مدرسياً مناسباً، وحدد هل الدليل آية أو حديث.",
+    "source": "المصدر المعطى: مقتطف من سورة الحجرات، الآية 11: «ولا تنابزوا بالألقاب». هذا دليل قرآني.",
+    "expected": "التنابز بالألقاب؛لاتنادزميلبلقبمكروه؛آيةلاحديث"
+  },
+  {
+    "id": "ksa-heldout",
+    "name": "KSA Studies",
+    "prompt": "Using only the source, calculate the number of years between these milestones and explain why the events are different.",
+    "source": "Recovery of Riyadh: 1902. Proclamation of the Kingdom of Saudi Arabia: 1932. Recovery of one city and proclamation of the unified state are distinct events.",
+    "expected": "30years;city recovery vs state proclamation"
+  }
+]

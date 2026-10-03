@@ -6,6 +6,9 @@ function plain(expression){
 }
 function checkNumericEqualities(text){
  const checks=[],failures=[];const seen=new Set();
+ for(const match of String(text).matchAll(/calculate\(\s*\$?([\d\s.+*/()^%-]{1,150})\$?\s*\)/g)){
+  if(checks.length>=4)break;try{const result=calculate(match[1]);checks.push({type:'calculation',...result,note:'Studora evaluated this written calculator expression. This checks arithmetic, not the givens or the full solution.'})}catch{}
+ }
  for(const match of String(text).matchAll(/\${1,2}([^$]+)\${1,2}/g)){
   const parts=plain(match[1]).split('=').map(x=>x.trim());if(parts.length<2||parts.some(x=>!x||x.length>150||!/^[\d\s.+*/()^%-]+$/.test(x.replace(/sqrt/g,''))))continue;
   for(let i=1;i<parts.length&&checks.length<12;i++){const expression=`(${parts[i-1]}) - (${parts[i]})`;if(seen.has(expression))continue;seen.add(expression);

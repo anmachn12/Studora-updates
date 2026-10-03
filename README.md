@@ -69,3 +69,11 @@ Run `node scripts/local-ai-ui-test.cjs` for a mocked local connection test; `npm
 Open a subject → Sources → New folder. Optionally link a lesson. Add materials while that folder is selected or move existing files using each source’s Folder selector. Folder removal keeps files in Unfiled; backups include folder organization.
 
 If the local AI was already downloaded, choose Settings → AI connection → Free local tutor → Use existing download and select its folder. Studora verifies the model and engine, then reuses model storage on the same drive. No second model download is needed.
+
+### Practice tests and long lessons
+
+Expand modules, lessons, and their conversations independently in the subject sidebar. In **Practice → Create practice test**, choose a lesson or topic, study sources, 3/5/8 questions, and multiple choice, written, or mixed answers. Progress is saved. Submit to reveal explanations and the AI answer key; multiple choice is scored automatically, while written answers need your own review. Retake preserves the earlier attempt. **Print / PDF** saves either a question paper or a separate answer key. Earlier chat exercises remain in **Chat practice**. AI-generated keys may be wrong.
+
+There is no forced word limit for tutoring. Local replies continue automatically when a generation segment fills, within available context and a 20-minute request timeout. Stop interrupts generation; streamed text is preserved. Replies stay attached to their original conversation when switching subjects, and bold text, lists, equations, and citations render while streaming. No new model download is needed for this update.
+
+Run `node scripts/tutor-eval.cjs` with `STUDORA_LOCAL_AI_DIR` pointing to the existing installed model folder to evaluate ten checked questions across all eight subjects. Optionally pass a case ID to run one question, and set `STUDORA_TEST_OUTPUT_DIR` for results. The script uses disposable study data, makes no model download, and saves expected facts beside actual answers for human review. These are application evaluations, not model training or an automatic accuracy certificate.

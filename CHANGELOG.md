@@ -1,3 +1,20 @@
+# Studora 0.1.8
+
+Take a saved practice test and navigate lessons with a clear sidebar hierarchy.
+
+- Expand or collapse modules and lessons separately. Conversations sit in a distinct branch beneath their lesson. Keep the active chat highlight separate from the lesson, and remember collapsed sections.
+- Create 3, 5, or 8 question tests from a lesson, topic, and selected sources in every subject. Choose multiple choice, written answers, or a mix. Arabic subject questions remain Arabic.
+- Answer in a dedicated Practice workspace, with saved progress and an answer key hidden until submission. Score multiple-choice questions automatically against the AI answer key; review written answers against model answers and mark them yourself.
+- Review explanations and supporting source references, retake a test without replacing the earlier attempt, and preserve older chat practice.
+- Keep streamed replies attached to the conversation that started them when switching subjects or chats. Restore the in-progress reply when returning, and preserve drafts in other subjects.
+- Render bold text, lists, math, and source citations as answers stream.
+- Remove the forced short-answer instructions. Continue local replies automatically across per-response token limits, raise the generation allowance from 1,200 to 2,048 tokens per segment, and preserve streamed text if a response is interrupted.
+- Improve calculator-call handling and the reviewed Arabic reference; include reproducible evaluation questions across all eight subjects. These are application improvements, not training new model weights.
+- Save a printable A4 question paper or a separate answer-key PDF, including mathematical notation and Arabic fonts.
+- Validate generated question structure and source references. Stop test creation safely; failed generation keeps your existing tests. No new model download is required.
+
+AI questions and answer keys may contain errors. Practice results are not school grades or proof of mastery.
+
 # Studora 0.1.7
 
 Chat directly with a free tutor running on your computer, and organize materials in lesson folders.

@@ -41,3 +41,30 @@ The calculator and simple arithmetic equality checks can catch some numerical er
 ## Storage
 
 The pinned model, image projector and engine download total about 5.61 GB. The model runs locally after setup. “Use existing download” verifies existing assets and reuses model storage with hard links on the same drive; it does not download a second model. Rejected model downloads are not part of the application or release.
+
+## Studora 0.1.8 development checks
+
+Ten new Grade 10 style questions covered all eight subjects. The initial run used an experimental 16,384-token context; seven answers supplied the required facts without the material failures below. This is a small development sample, not a curriculum accuracy estimate.
+
+| Subject | Complete initial answers | Checks |
+| --- | --- | --- |
+| Math | 1/2 | Isosceles angle deductions; similar-triangle correspondence |
+| English | 1/1 | Present-perfect passive voice and auxiliaries |
+| Physics | 1/1 | Acceleration and net force |
+| Biology | 1/1 | Mitosis/meiosis chromosome numbers and fertilization |
+| Chemistry | 0/1 | Balance aluminum oxide and calculate moles |
+| Arabic | 1/2 | Dual subject and case marker; passive-verb parsing |
+| Islamic Studies | 1/1 | Apply a supplied Quranic excerpt without inventing hadith |
+| KSA Studies | 1/1 | Distinguish two supplied milestones and calculate their interval |
+
+The initial math and chemistry failures returned native calculator notation instead of explanations. The adapter now recognizes narrowly defined calculator expressions, validates them through the existing calculator gate, hides tool notation, and retries unsupported notation as an ordinary explanation. Follow-up instructions require the final answer to restate the method because a pre-tool draft is not retained. A regression test checks this recovery path. Written calculator expressions in math/physics also receive an actual arithmetic check. These checks do not establish a proof.
+
+An initial Arabic answer correctly identified the dual subject and alif, but called alif an original marker and gave a singular noun as an example of dual noun annexation. Additional reviewed reference rules did not reliably fix this. The final Arabic recheck still invented incorrect annexation examples and mixed original and secondary markers. **Arabic grammar remains unreliable.** A correct first sentence does not make the entire explanation correct.
+
+A larger context slowed checks and one chemistry recheck suffered an engine failure. The released configuration returns to 8,192 context tokens. At that setting, the final development rechecks took about 89 seconds for math, 71 for chemistry and 64 for Arabic on this laptop. Math returned A=44°, C=68° and a real calculator result for the 180° sum. Chemistry returned 4Al + 3O2 → 2Al2O3, matching 4 Al/6 O atoms and 1 mol. Arabic failed as described above. Rechecks reused development questions and are not independent evidence of a higher accuracy percentage; laptop load and temperature affect timings.
+
+Separately, the real local model generated a three-question mixed physics test in about 224 seconds with schema-constrained output. All three generated answer keys were checked: 5 m/s², 4 m/s² and 40 m. This small, easy sample does not establish practice-test reliability.
+
+There is no forced tutoring word count. A local generation segment now permits up to 2,048 tokens, and length-limited text continues automatically until the model finishes, the student stops it, it repeats without progress, or the 20-minute request timeout expires. Structured test questions retain a smaller per-question bound so malformed JSON can be retried safely. No additional model was downloaded and no model weights were trained.
+
+`scripts/tutor-eval.cjs` and `test/tutor-eval-cases.json` preserve reproducible checked cases for future manual evaluations. They use disposable study data and an existing installed model. Expected facts are supplied beside answers; the script does not automatically certify semantic correctness.

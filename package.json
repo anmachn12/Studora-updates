@@ -1,6 +1,6 @@
 {
   "name": "studora",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Your personal learning workspace",
   "main": "main.cjs",
   "author": "Studora",
@@ -55,7 +55,9 @@
       "THIRD-PARTY-NOTICES.md",
       "tutor-reference.cjs",
       "local-tutor.cjs",
-      "numeric-checks.cjs"
+      "numeric-checks.cjs",
+      "practice-tests.cjs",
+      "print-styles.cjs"
     ],
     "win": {
       "target": "nsis",

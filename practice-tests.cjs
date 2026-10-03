@@ -1,0 +1,14 @@
+'use strict';
+const {randomUUID}=require('node:crypto'),{parseQuestion}=require('./ui/practice-tests.js'),{context}=require('./ui/lessons.js');
+function request(payload,state,index){
+ const subject=state.subjects.find(s=>s.id===payload.subjectId);if(!subject)throw Error('Choose a subject.');
+ const count=Number(payload.count);if(![3,5,8].includes(count)||!['choice','written','mixed'].includes(payload.type)||!['standard','challenge'].includes(payload.difficulty))throw Error('Choose valid test settings.');
+ const lesson=state.lessons.find(l=>l.id===payload.lessonId&&l.subjectId===subject.id),topic=String(payload.topic||lesson?.title||'').trim().slice(0,300);
+ const sourceIds=(payload.sourceIds||[]).filter(id=>state.sources.some(s=>s.id===id&&s.subjectId===subject.id&&!s.retired));
+ if(!topic&&!sourceIds.length)throw Error('Choose a lesson, enter a topic, or select study sources.');
+ const type=payload.type==='mixed'?(index%2?'written':'choice'):payload.type;
+ return {subject,lesson,sourceIds,type,count,topic,prompt:`Create question ${index+1} of ${count} for a Grade 10 ${subject.name} practice test. Scope: ${lesson?context(lesson,subject):topic||'selected sources'}. Topic: ${topic}. Difficulty: ${payload.difficulty}. ${subject.name==='Arabic'?'Write the question, options and explanation in Arabic.':''} Return only one JSON object: {"prompt":"question text","options":${type==='choice'?'["choice A","choice B","choice C","choice D"]':'[]'},"answer":"${type==='choice'?'one letter A, B, C or D':'complete model answer'}","explanation":"brief worked explanation","sourceId":"exact provided source ID or empty string","page":1}. ${type==='choice'?'Exactly one choice must be correct. Use plausible distinct distractors.':'Use a short written question with an explicit, checkable model answer.'} Use only source evidence when provided. For general knowledge do not invent a textbook example or citation. Make the question self-contained: include all needed givens and quote any short required excerpt. Do not refer to an invisible diagram. Check the answer. Keep the JSON under 250 words. Use JSON escaped backslashes for LaTeX.`};
+}
+function assemble(payload,state,questions){const first=request(payload,state,0);return {id:randomUUID(),subjectId:first.subject.id,lessonId:first.lesson?.id||null,title:(first.lesson?context(first.lesson,first.subject):first.topic||first.subject.name)+' · Practice test',sourceIds:first.sourceIds,questions:questions.map(q=>({...q,id:randomUUID()})),answers:{},marks:{},createdAt:new Date().toISOString(),submittedAt:null};}
+const questionSchema={type:'object',properties:{prompt:{type:'string'},options:{type:'array',items:{type:'string'},maxItems:4},answer:{type:'string'},explanation:{type:'string'},sourceId:{type:'string'},page:{type:'integer'}},required:['prompt','options','answer','explanation','sourceId','page'],additionalProperties:false};
+module.exports={request,assemble,parseQuestion,questionSchema};
